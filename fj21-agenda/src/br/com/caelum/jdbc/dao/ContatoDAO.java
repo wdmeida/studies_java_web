@@ -3,7 +3,11 @@ package br.com.caelum.jdbc.dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import br.com.caelum.jdbc.ConnectionFactory;
 import br.com.caelum.jdbc.model.Contato;
@@ -46,5 +50,60 @@ public class ContatoDAO {
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
+	}//adicionarContato()
+	
+	/*
+	 * Obtém uma lista com todos os contatos cadastrados no banco.
+	 */
+	public List<Contato> getLista() {
+		try {
+			//Cria a lista que receberá os contatos.
+			List<Contato> contatos = new ArrayList<Contato>();
+			
+			String sql = "select * from contatos";
+			
+			//Cria o objeto PreparedStetement para realizar a consulta.
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			
+			//Realiza a query e obtém os dados.
+			ResultSet resultSet = stmt.executeQuery();
+			
+			//Obtém os dados e insere na lista.
+			while(resultSet.next()){
+				Contato contato = new Contato();
+				
+				contato.setId(resultSet.getLong("id"));
+				contato.setNome(resultSet.getString("nome"));
+				contato.setEmail(resultSet.getString("email"));
+				contato.setEndereco(resultSet.getString("endereco"));
+				
+				//Obtém a data através do calendar.
+				Calendar data = Calendar.getInstance();
+				data.setTime(resultSet.getDate("dataNascimento"));
+				contato.setDataNascimento(data);
+				
+				//Adiciona o contato a lista.
+				contatos.add(contato);
+			}
+			
+			//Fecha os objetos ResultSet e PreparedStatement.
+			resultSet.close();
+			stmt.close();
+			
+			//Retorna a lista com os contatos.
+			return contatos;
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
 	}
+	
+	//Encerra a conexão com o banco de dados, caso esta esteja aberta.
+	public void encerrarConexao() {
+		if(connection != null)
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new RuntimeException();
+			}
+	}//encerrarConexao
 }//class ContatoDAO
