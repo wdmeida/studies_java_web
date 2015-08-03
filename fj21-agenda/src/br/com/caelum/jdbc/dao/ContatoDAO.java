@@ -35,7 +35,7 @@ public class ContatoDAO {
 		String sql = "insert into contatos (nome,email,endereco,dataNascimento) values (?,?,?,?);";
 		
 		try {
-			//Cria o objeto PreparedStatement e obtém a conexão para realizar a inserção.
+			//Cria o objeto PreparedStatement para obter a conexão e executar o comando sql.
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
 			//Seta os valores para inserção.
@@ -62,7 +62,7 @@ public class ContatoDAO {
 			
 			String sql = "select * from contatos";
 			
-			//Cria o objeto PreparedStetement para realizar a consulta.
+			//Cria o objeto PreparedStatement para obter a conexão e executar o comando sql.
 			PreparedStatement stmt = connection.prepareStatement(sql);
 			
 			//Realiza a query e obtém os dados.
@@ -95,7 +95,53 @@ public class ContatoDAO {
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
-	}
+	}//getLista()
+	
+	//Altera as informações de um contato através do id do contato.
+	public void alterarContato(Contato contato){
+		//Cria o comando responsável pela atualização dos dados.
+		String sql = "update contatos set nome=?, email=?, endereco=?, dataNascimento=? where id=?;";
+		
+		try {
+			//Cria o objeto PreparedStatement para obter a conexão e executar o comando sql.
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			
+			//Seta os novos valores.
+			stmt.setString(1, contato.getNome());
+			stmt.setString(2, contato.getEmail());
+			stmt.setString(3, contato.getEndereco());
+			stmt.setDate(4, new Date(contato.getDataNascimento().getTimeInMillis()));
+			
+			//Seta o id do contato que será modificado.
+			stmt.setLong(5, contato.getId());
+			
+			//Executa a atualização e encerra o objeto PreparedStatement.
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
+	}//alterarContato()
+	
+	//Remove um contato através do seu id.
+	public void deletarContato(Contato contato){
+		//Cria o comando sql responsável por apagar o contato.
+		String sql = "delete from contatos where id=?;";
+		
+		try {
+			//Cria o objeto PreparedStatement para obter a conexão e executar o comando sql.
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			
+			//Seta o id do contato que será apagado.
+			stmt.setLong(1, contato.getId());
+			
+			//Executa a exclusão e fecha encerra a conexão do objeto PreparedStetement.
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
+	}//deletarContato()
 	
 	//Encerra a conexão com o banco de dados, caso esta esteja aberta.
 	public void encerrarConexao() {

@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class OiMundo extends HttpServlet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/*
 	 * Sobrescreve o método service da classe HttpServlet. Ele é responsável por tratar as requisições
 	 * e respostas feitas ao servidor pelo usuário.
