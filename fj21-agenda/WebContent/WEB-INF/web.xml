@@ -3,11 +3,6 @@
   <display-name>fj21-agenda</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
   <!-- Mapeia a servlet criada para que ela possa ser acessada via browser. -->
@@ -19,4 +14,16 @@
   	<servlet-name>servletOiMundo</servlet-name>
   	<url-pattern>/oi</url-pattern>
   </servlet-mapping>
+  
+  <!-- Mapeia a página de erro responsável por informar ao usuário que algo ocorreu. -->
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
+		<location>/erro.html</location>
+	</error-page>
+	
+	<!-- Mapeia a página de erro responsável por informar que a página solicitada não existe. -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
 </web-app>
