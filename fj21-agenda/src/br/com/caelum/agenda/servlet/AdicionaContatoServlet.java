@@ -61,12 +61,6 @@ public class AdicionaContatoServlet extends HttpServlet {
 		ContatoDAO dao = new ContatoDAO();
 		dao.adicionarContato(contato);
 		
-		//Imprime o nome do contato que foi salvo no banco.
-		out.println("<html>");
-		out.println("<body>");
-		out.println("Contato " + contato.getNome() + " salvo com sucesso.");
-		out.println("</body>");
-		out.println("</html>");
-	}//service()
-	
+		request.getRequestDispatcher("/contato-adicionado.jsp").forward(request, response);
+	}
 }//class AdicionaContatoServlet

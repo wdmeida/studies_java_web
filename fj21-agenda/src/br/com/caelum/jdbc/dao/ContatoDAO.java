@@ -18,12 +18,16 @@ import br.com.caelum.jdbc.model.Contato;
  */
 public class ContatoDAO {
 	//Atributo que recebe a conexão com o banco de dados.
-	Connection connection;
+	private Connection connection;
 	
 	//Obtém a conexão com o banco de dados no construtor. Isso evita que sejam criadas várias conexões diferentes com o banco.
 	public ContatoDAO() {
 		connection = new ConnectionFactory().getConnection();
 	}//ContatoDAO()
+	
+	public ContatoDAO(Connection connection){
+		this.connection = connection;
+	}
 	
 	/*
 	 * Adiciona um contato no banco de dados. Deve ser feito de forma completamente encapsulada, por isso o método receberá as informações
